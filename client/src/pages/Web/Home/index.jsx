@@ -203,8 +203,8 @@ const HomePage = () => {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-primary to-secondary">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">Ready to Start Your Learning Journey?</h2>
-          <p className="text-xl text-white/90 mb-8">
+          <h2 className="text-3xl lg:text-4xl font-bold text-black mb-6">Ready to Start Your Learning Journey?</h2>
+          <p className="text-xl text-black/90 mb-8">
             Join our community of learners and unlock your potential with AI-powered education.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

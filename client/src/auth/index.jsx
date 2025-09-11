@@ -1,4 +1,5 @@
 import ForgotPassword from "./ForgotPassword";
+import AuthLayout from "./Layout";
 import Login from "./Login";
 import VerifyOtp from "./OTP";
 import ResetPassword from "./ResetPassword";
@@ -9,5 +10,6 @@ export{
     Login,
     VerifyOtp,
     ForgotPassword,
-    ResetPassword
+    ResetPassword,
+    AuthLayout
 }

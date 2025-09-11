@@ -1,28 +1,55 @@
 
 import { useState } from "react"
-import { Link } from "react-router-dom"
-import { Button, Input, Form, Checkbox, Divider } from "antd"
+import { Link, useNavigate } from "react-router-dom"
+import { Button, Input, Form, Checkbox, Divider, message } from "antd"
 import { Mail, Lock, Eye, EyeOff, BookOpen } from "lucide-react"
 import { Icon } from "@iconify/react"
+import { useEffect } from "react"
 
 const Login = () => {
-  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
+  const [storedUser, setStoredUser] = useState(null)
+  const [form] = Form.useForm()
+
+  useEffect(() => {
+    try {
+      const userData = localStorage.getItem("edverto-user")
+      if (userData) {
+        setStoredUser(JSON.parse(userData))
+      }
+    } catch (error) {
+      message.error('error parsing stored user data:', error)
+      message.error("Invalid stored user data . Please sign up again. ")
+    }
+  }, [])
 
   const onFinish = async (values) => {
+    localStorage.getItem("edverto-user")
+
     setLoading(true)
     // Simulate API call
     setTimeout(() => {
-      console.log("Login values:", values)
-      setLoading(false)
+      if (storedUser && storedUser.email === values.email && storedUser.password === values.password) {
+        console.log("Login successful for user:", values.email)
+        message.success("Login successfull!")
+        setLoading(false)
+        navigate("/")
+        form.resetFields()
+      } else {
+        console.log("Login failed: Invalid credentials")
+        message.error("Invalid email or password. Please check your credentials.")
+        setLoading(false)
+        form.resetFields()
+      }
     }, 1000)
   }
 
   return (
     <div className="min-h-screen flex">
       {/* Left Side - Form */}
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
+      <div className="flex-1 flex h-[calc(100vh_-_10px)] auth-scroll  overflow-y-auto flex-col items-center justify- px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full  pt-20 space-y-8">
           {/* Header */}
           <div className="text-center">
             <Link to="/" className="flex items-center justify-center space-x-2 mb-6">
@@ -46,10 +73,10 @@ const Login = () => {
             </Button>
           </div>
 
-          <Divider className="text-muted-foreground">Or continue with email</Divider>
+          <Divider className="!text-white">Or continue with email</Divider>
 
           {/* Login Form */}
-          <Form name="login" onFinish={onFinish} layout="vertical" size="large" className="space-y-4">
+          <Form name="login" form={form} onFinish={onFinish} layout="vertical" size="large" className="space-y-4">
             <Form.Item
               name="email"
               label={<span className="text-foreground font-medium">Email Address</span>}
@@ -92,7 +119,7 @@ const Login = () => {
               <Form.Item name="remember" valuePropName="checked" className="mb-0">
                 <Checkbox className="text-muted-foreground">Remember me</Checkbox>
               </Form.Item>
-              <Link to="/forgot" className="text-primary hover:text-primary/80 text-sm font-medium">
+              <Link to="/auth/forgot" className="text-primary hover:text-primary/80 text-sm font-medium">
                 Forgot password?
               </Link>
             </div>
@@ -112,7 +139,7 @@ const Login = () => {
           {/* Sign Up Link */}
           <div className="text-center">
             <span className="text-muted-foreground">Don't have an account? </span>
-            <Link to="/signup" className="text-primary hover:text-primary/80 font-medium">
+            <Link to="/auth/signup" className="text-primary hover:text-primary/80 font-medium">
               Sign up for free
             </Link>
           </div>

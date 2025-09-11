@@ -4,6 +4,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import {
+  AuthLayout,
   ForgotPassword,
   Login,
   ResetPassword,
@@ -45,11 +46,17 @@ import TeacherDashboard from "./pages/Teacher/Dashboard";
 
 function App() {
   const router = createBrowserRouter([
-    { path: "signup", element: <Signup /> },
-    { path: "login", element: <Login /> },
-    { path: "forgot", element: <ForgotPassword /> },
-    { path: "otp", element: <VerifyOtp /> },
-    { path: "reset", element: <ResetPassword /> },
+    {
+      path:"/auth",
+      element: <AuthLayout/>,
+      children: [
+        { path: "signup", element: <Signup /> },
+        { path: "login", element: <Login /> },
+        { path: "forgot", element: <ForgotPassword /> },
+        { path: "otp", element: <VerifyOtp /> },
+        { path: "reset", element: <ResetPassword /> },
+      ]
+    },
     {
       path: "/",
       element: <UserLayout />,

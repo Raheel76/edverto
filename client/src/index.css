@@ -24,7 +24,9 @@
   --ring: rgba(99, 102, 241, 0.5);
   --radius: 0.5rem;
 }
-
+.ant-divider-horizontal.ant-divider-with-text::after, .ant-divider-with-text::before{
+  border-color: #ffffff !important;
+}
 * {
   margin: 0;
   padding: 0;
@@ -53,7 +55,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary !important);
+  background: var(--primary) !important;
 }
 .bg-background {
   background-color: var(--background);
@@ -263,8 +265,16 @@ body {
 
 }
 
-
-
 .ant-table-wrapper .ant-table{
   scrollbar-color: auto;
+}
+
+.ant-input::placeholder{
+  color: #a7a5a5 !important;
+  
+}
+
+.ant-input-affix-wrapper , input{
+  background-color: #fff !important;
+  color: #000000 !important;
 }

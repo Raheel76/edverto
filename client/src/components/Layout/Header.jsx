@@ -28,7 +28,7 @@ const Header = () => {
             <div className="bg-primary p-2 rounded-lg">
               <BookOpen className="h-6 w-6 text-white" />
             </div>
-            <span className="text-xl font-bold text-foreground">Edverto</span>
+            <span className="text-xl font-bold text-white">Edverto</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -62,12 +62,12 @@ const Header = () => {
 
           {/* Auth Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link to="/login">
+            <Link to="/auth/login">
               <Button type="text" className="text-foreground hover:text-primary">
                 Login
               </Button>
             </Link>
-            <Link to="/signup">
+            <Link to="/auth/signup">
               <Button type="primary" className="bg-primary hover:bg-primary/90 border-primary">
                 Sign Up
               </Button>

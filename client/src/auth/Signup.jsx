@@ -1,22 +1,25 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Button, Input, Form, Checkbox, Divider, Select } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { Button, Input, Form, Checkbox, Divider, Select, message } from "antd";
 import { Mail, Lock, Eye, EyeOff, BookOpen, User } from "lucide-react";
 import { Icon } from "@iconify/react";
 
 const { Option } = Select;
 
 const Signup = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
+  const navigate = useNavigate();
 
   const onFinish = async (values) => {
     setLoading(true);
-    // Simulate API call
+    localStorage.setItem("edverto-user", JSON.stringify(values))
     setTimeout(() => {
       console.log("Signup values:", values);
+      message.success("User registered successfully!");
+      form.resetFields();
       setLoading(false);
+      navigate("/auth/login");
     }, 1000);
   };
 
@@ -29,11 +32,14 @@ const Signup = () => {
           alt="AI Learning Platform"
           className="absolute inset-0 w-full h-full object-cover"
         />
-         <div className="absolute inset-0 bg-gradient-to-br from-black/60 to-black/50 flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-br from-black/60 to-black/50 flex items-center justify-center">
           <div className="text-center text-white p-8">
-            <h3 className="text-3xl font-bold mb-4">Start Your AI-Powered Learning Journey</h3>
+            <h3 className="text-3xl font-bold mb-4">
+              Start Your AI-Powered Learning Journey
+            </h3>
             <p className="text-xl opacity-90">
-              Join thousands of learners advancing their careers with personalized education
+              Join thousands of learners advancing their careers with
+              personalized education
             </p>
           </div>
         </div>
@@ -50,7 +56,9 @@ const Signup = () => {
               <div className="bg-primary p-2 rounded-lg">
                 <BookOpen className="h-6 w-6 text-white" />
               </div>
-              <span className="text-2xl font-bold text-foreground">Edverto</span>
+              <span className="text-2xl font-bold text-foreground">
+                Edverto
+              </span>
             </Link>
             <h2 className="text-3xl font-bold text-foreground">
               Create your account
@@ -61,8 +69,8 @@ const Signup = () => {
           </div>
         </div>
         <div className="max-w-3xl w-full space-y-8">
-          
           <Form
+            form={form}
             name="signup"
             onFinish={onFinish}
             layout="vertical"
@@ -82,14 +90,10 @@ const Signup = () => {
                 ]}
               >
                 <Input
-                  prefix={<User className="h-4 w-4 text-muted-foreground" />}
+                  allowClear={true}
+                  prefix={<User className="h-4 w-4 text-black" />}
                   placeholder="First name"
                   className="h-12"
-                  style={{
-                    backgroundColor: "var(--input)",
-                    borderColor: "var(--border)",
-                    color: "var(--foreground)",
-                  }}
                 />
               </Form.Item>
 
@@ -103,6 +107,7 @@ const Signup = () => {
                 ]}
               >
                 <Input
+                  allowClear={true}
                   placeholder="Last name"
                   className="h-12"
                   style={{
@@ -127,7 +132,8 @@ const Signup = () => {
               ]}
             >
               <Input
-                prefix={<Mail className="h-4 w-4 text-muted-foreground" />}
+                allowClear={true}
+                prefix={<Mail className="h-4 w-4 text-black" />}
                 placeholder="Enter your email"
                 className="h-12"
                 style={{
@@ -145,7 +151,11 @@ const Signup = () => {
               }
               rules={[{ required: true, message: "Please select your role!" }]}
             >
-              <Select placeholder="Select your role" className="h-12">
+              <Select
+                allowClear={true}
+                placeholder="Select your role"
+                className="h-12"
+              >
                 <Option value="student">Student - I want to learn</Option>
                 <Option value="teacher">Teacher - I want to teach</Option>
                 <Option value="professional">
@@ -161,11 +171,11 @@ const Signup = () => {
               }
               rules={[
                 { required: true, message: "Please input your password!" },
-                { min: 8, message: "Password must be at least 8 characters!" },
+                { min: 4, message: "Password must be at least 4 characters!" },
               ]}
             >
               <Input.Password
-                prefix={<Lock className="h-4 w-4 text-muted-foreground" />}
+                prefix={<Lock className="h-4 w-4 text-black" />}
                 placeholder="Create a password"
                 iconRender={(visible) =>
                   visible ? (
@@ -204,7 +214,7 @@ const Signup = () => {
               ]}
             >
               <Input.Password
-                prefix={<Lock className="h-4 w-4 text-muted-foreground" />}
+                prefix={<Lock className="h-4 w-4 text-black" />}
                 placeholder="Confirm your password"
                 iconRender={(visible) =>
                   visible ? (
@@ -231,8 +241,8 @@ const Signup = () => {
                     value
                       ? Promise.resolve()
                       : Promise.reject(
-                          new Error("Please accept the terms and conditions!")
-                        ),
+                        new Error("Please accept the terms and conditions!")
+                      ),
                 },
               ]}
             >
@@ -259,9 +269,7 @@ const Signup = () => {
               </Button>
             </Form.Item>
           </Form>
-             <Divider className="!text-white ">
-            Or sign up with email
-          </Divider>
+          <Divider className="!text-white ">Or sign up with email</Divider>
           <div className="space-y-3">
             <Button
               size="large"
@@ -277,7 +285,7 @@ const Signup = () => {
               Already have an account?{" "}
             </span>
             <Link
-              to="/login"
+              to="/auth/login"
               className="!text-primary hover:!text-primary/80 !font-medium"
             >
               Sign in
